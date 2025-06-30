@@ -5,12 +5,11 @@ services:
       - "8000:8000"
     restart: unless-stopped
     networks:
-      app_net:
-        ipv4_address: 192.168.1.100
+      - jxwaf_base_server_net
 
 networks:
-  app_net:
+  jxwaf_base_server_net:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.1.0/24
+        - subnet: 192.168.10.0/24
