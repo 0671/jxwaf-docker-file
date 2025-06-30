@@ -11,6 +11,8 @@ services:
     volumes:
       - /opt/jxwaf_data/clickhouse:/var/lib/clickhouse
     restart: unless-stopped
+    networks:
+      - jxlog_net
 
   jxlog:
     container_name: jxlog
@@ -26,3 +28,12 @@ services:
     depends_on:
       - clickhouse
     restart: unless-stopped
+    networks:
+      - jxlog_net
+
+networks:
+  jxlog_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.30.0/24
