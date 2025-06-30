@@ -11,3 +11,12 @@ services:
       WAF_AUTH: you_auth_key 
       TZ: Asia/Shanghai
     restart: unless-stopped
+    networks:
+      - jxwaf_base_net
+
+networks:
+  jxwaf_base_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
