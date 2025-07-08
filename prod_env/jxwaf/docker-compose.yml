@@ -11,6 +11,22 @@ services:
       WAF_AUTH: you_auth_key 
       TZ: Asia/Shanghai
     restart: unless-stopped
+    volumes:
+      - jxwaf-logs:/opt/jxwaf/nginx/logs
+    networks:
+      - jxwaf_base_net
+
+  jxwaf_base_logcleaner:
+    image: busybox
+    volumes:
+      - jxwaf-logs:/opt/jxwaf/nginx/logs
+    command:
+      - /bin/sh
+      - -c
+      - while true; do  > /opt/jxwaf/nginx/logs/access.log;  > /opt/jxwaf/nginx/logs/error.log;  sleep 3600;  done
+    restart: unless-stopped
+    depends_on:
+      - jxwaf_base
     networks:
       - jxwaf_base_net
 
@@ -20,3 +36,5 @@ networks:
     ipam:
       config:
         - subnet: 192.168.20.0/24
+volumes:
+  jxwaf-logs:
